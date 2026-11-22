@@ -1,0 +1,34 @@
+MuseAi Social — portable source + static output
+
+Root project files
+- README.md: local build, route map, age-gate limitations, GitHub Pages, Cloudflare Pages/Workers guidance
+- SCOPE.md: product boundaries and portable-site features
+- CONTENTS.txt: this inventory
+- package.json: zero-dependency build and preview scripts
+- site.config.json: canonical production host/path and theme tokens
+- build.mjs: deterministic static HTML generator and asset copier
+- worker.js / wrangler-worker.jsonc: Cloudflare Worker static-assets option
+- wrangler.toml: Cloudflare Pages output configuration
+- .github/workflows/pages.yml: user-owned GitHub Pages build/deploy workflow
+- data/topics.json: post formats and Meta subject taxonomy
+- data/posts.json: ten supplied starter entries and comments
+- src/style.css: responsive dark FED-theme layouts, ticker, and reduced-motion rules
+- src/flow-field.js: animated flowing contour background; no orbital imagery
+- src/app.js: archive controls, local drafts/room UI, and age-gated provider loading
+- src/assets/: symbol-only SVG/ICO favicon, five optimized promotional WebP illustrations, animated GIF, and optimized user-provided mascot avatar
+
+dist/
+- robots.txt, sitemap.xml, 404.html, favicon.ico, _headers, _redirects, .nojekyll
+- social/index.html: public landing page
+- social/all/index.html: searchable/filterable archive
+- social/topic/<topic>/index.html: Learn, Build, Help, Show, News
+- social/subject/<subject>/index.html: Meta Glasses, Meta AI app, Meta integrations
+- social/<post-slug>/index.html: ten canonical article pages
+- social/new/index.html: noindex local-only authoring page
+- social/login/index.html: informational HTML sign-in boundary
+- social/community/index.html: centered Discord widget
+- social/support/index.html: age-acknowledgment gate and provider directory
+- social/thanks/index.html: local thank-you page
+- social/assets/: scripts, styles, mascot artwork, symbol marks, and GIF
+
+The ZIP is a portable static-file handoff. No site has been published, no account or repository has been connected, and no Manus URL is included.

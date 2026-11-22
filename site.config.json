@@ -1,0 +1,14 @@
+{
+  "siteName": "MuseAi Social",
+  "brandName": "FED Hub",
+  "baseUrl": "https://www.fedpromptly.com",
+  "basePath": "/social",
+  "description": "One home for Muse AI Meta glasses and Meta integrations. Learn, build, and find what works.",
+  "theme": {
+    "background": "#0e0e14",
+    "surface": "#1a1a26",
+    "text": "#ececf1",
+    "brand": "#7c5cfc",
+    "accent": "#f472b6"
+  }
+}

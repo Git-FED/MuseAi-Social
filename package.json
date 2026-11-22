@@ -1,0 +1,13 @@
+{
+  "name": "museai-social-portable",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portable static MuseAi Social community hub for fedpromptly.com/social",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "python3 -m http.server 8000 --directory dist"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
