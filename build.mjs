@@ -15,14 +15,23 @@ const SITE_DIR = path.join(OUT, BASE.replace(/^\//, ''));
 const esc = (value = '') => String(value).replace(/[&<>"']/g, ch => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 }[ch]));
-const urlFor = route => `${BASE}${route === '/' ? '/' : route}`;
-const canonical = route => `${ORIGIN}${urlFor(route)}`;
+// Flat layout: every page is one .html file in the site folder, no nested
+// route folders. '/topic/learn/' -> 'topic-learn.html', '/all/' -> 'all.html',
+// '/' -> 'index.html'. This is what makes the output deployable by dragging
+// a single folder anywhere: there are no per-page directories to lose.
+const flatFile = route => {
+  const clean = String(route).replace(/^\/+|\/+$/g, '');
+  if (!clean) return 'index.html';
+  return `${clean.replaceAll('/', '-')}.html`;
+};
+const pageHref = route => `${BASE}/${flatFile(route)}`;
+const canonical = route => route === '/' ? `${ORIGIN}${BASE}/` : `${ORIGIN}${pageHref(route)}`;
 const subject = key => topics.subjects[key] ?? { name: 'Meta integrations', color: '#38bdf8', desc: '' };
 const section = key => topics.sections[key] ?? { name: 'Learn', color: '#34d399', desc: '' };
-const postUrl = post => `${BASE}/${post.slug}/`;
-const loginUrl = next => `${BASE}/login/?next=${encodeURIComponent(next || `${BASE}/`)}`;
+const postUrl = post => pageHref(`/${post.slug}/`);
+const loginUrl = (route = '/', fragment = '') => `${pageHref('/login/')}?next=${encodeURIComponent(`${pageHref(route)}${fragment}`)}`;
 const writePage = async (route, html) => {
-  const file = route === '/' ? path.join(SITE_DIR, 'index.html') : path.join(SITE_DIR, `${route.replace(/^\//, '')}index.html`);
+  const file = path.join(SITE_DIR, flatFile(route));
   await fs.mkdir(path.dirname(file), { recursive: true });
   await fs.writeFile(file, html);
 };
@@ -39,7 +48,7 @@ function header(active = '') {
   return `<header class="hub-head">
     <a class="hub-brand" href="${BASE}/" aria-label="FED Hub home"><img class="hub-mark" src="${BASE}/assets/fed-symbol.svg" alt=""><span>FED Hub</span></a>
     <nav class="hub-nav" aria-label="Primary navigation">${nav.map(([label, href, id]) => `<a href="${href}"${active === id ? ' aria-current="page"' : ''}>${label}</a>`).join('')}</nav>
-    <div class="hub-session"><span class="hub-chip"><i></i> Reading public · login to act</span><a href="${loginUrl(`${BASE}/`)}" class="hub-login">Sign in <span aria-hidden="true">↗</span></a></div>
+    <div class="hub-session"><span class="hub-chip"><i></i> Reading public · login to act</span><a href="${loginUrl('/')}" class="hub-login">Sign in <span aria-hidden="true">↗</span></a></div>
   </header>
   <div class="signal-ticker"><span class="sr-only">No hype, just what works. Learn, build, show, and share. Meta glasses and useful integrations.</span><div class="ticker-track" aria-hidden="true"><div class="ticker-set"><span>NO HYPE · JUST WHAT WORKS</span><i>✳</i><span>LEARN / BUILD / SHOW / SHARE</span><i>✳</i><span>META GLASSES · USEFUL INTEGRATIONS</span><i>✳</i></div><div class="ticker-set"><span>NO HYPE · JUST WHAT WORKS</span><i>✳</i><span>LEARN / BUILD / SHOW / SHARE</span><i>✳</i><span>META GLASSES · USEFUL INTEGRATIONS</span><i>✳</i></div></div></div>`;
 }
@@ -54,8 +63,7 @@ function footer() {
   return `<footer class="site-foot"><a href="${BASE}/" class="foot-brand">MuseAi Social</a><span>Meta glasses + Meta integrations</span><span>Read free · sign in to interact</span><a href="${BASE}/community/">Community ↗</a><a href="${BASE}/support/">Support ↗</a><a href="${BASE}/all/">Public index ↗</a></footer>`;
 }
 
-function makeLinksRelative(html, route) {
-  const pageDirectory = route.replace(/^\/+|\/+$/g, '');
+function rewriteLinks(html, absolute) {
   const basePrefix = BASE || '';
   return html.replace(/\b(href|src)="([^"]+)"/g, (match, attribute, value) => {
     if (value.startsWith('//')) return match;
@@ -63,14 +71,24 @@ function makeLinksRelative(html, route) {
     const pathname = splitAt < 0 ? value : value.slice(0, splitAt);
     const suffix = splitAt < 0 ? '' : value.slice(splitAt);
     if (basePrefix ? !(pathname === basePrefix || pathname.startsWith(`${basePrefix}/`)) : !pathname.startsWith('/')) return match;
-    const localPath = basePrefix ? pathname.slice(basePrefix.length) : pathname;
-    const targetPath = localPath.replace(/^\/+/, '');
-    const targetDirectory = targetPath.endsWith('/') ? targetPath.slice(0, -1) : targetPath;
-    const relativePath = path.posix.relative(pageDirectory || '.', targetDirectory || '.') || '.';
-    const needsSlash = targetPath.endsWith('/') || !path.posix.extname(targetPath);
-    const portablePath = needsSlash ? (relativePath === '.' ? './' : `${relativePath}/`) : relativePath;
-    return `${attribute}="${portablePath}${suffix}"`;
+    const localPath = (basePrefix ? pathname.slice(basePrefix.length) : pathname).replace(/^\/+/, '');
+    const isAsset = localPath === 'favicon.ico' || localPath.startsWith('assets/');
+    const alreadyFlat = localPath.endsWith('.html');
+    const targetFile = isAsset || alreadyFlat ? localPath : flatFile(`/${localPath}`);
+    // All pages are flat files in one folder, so a relative link is just the
+    // file name. The 404 page needs absolute links instead: it can be served
+    // for a missing URL at any depth, where a relative link would resolve
+    // against the wrong folder.
+    return absolute ? `${attribute}="${basePrefix}/${targetFile}${suffix}"` : `${attribute}="${targetFile}${suffix}"`;
   });
+}
+
+function makeLinksRelative(html) {
+  return rewriteLinks(html, false);
+}
+
+function makeLinksAbsolute(html) {
+  return rewriteLinks(html, true);
 }
 
 function shell({ title, description, route, content, type = 'website', article = null, noindex = false, active = '', relativeLinks = true }) {
@@ -124,7 +142,7 @@ function shell({ title, description, route, content, type = 'website', article =
   ${footer()}
 </body>
 </html>`;
-  return relativeLinks ? makeLinksRelative(html, route) : html;
+  return relativeLinks ? makeLinksRelative(html) : makeLinksAbsolute(html);
 }
 
 function card(post, compact = false) {
@@ -204,7 +222,7 @@ function allPage() {
 }
 
 function listingPage({ route, title, description, activeType = '', activeSubject = '', filtered }) {
-  const list = filtered.length ? `<div class="archive-list">${filtered.map(post => card(post, true)).join('')}</div>` : `<div class="empty-topic"><span>NO PUBLIC THREADS YET</span><p>This room is ready for a working answer. No filler posts.</p><a class="text-link" href="${loginUrl(`${BASE}/new/`)}">Sign in to contribute <i>↗</i></a></div>`;
+  const list = filtered.length ? `<div class="archive-list">${filtered.map(post => card(post, true)).join('')}</div>` : `<div class="empty-topic"><span>NO PUBLIC THREADS YET</span><p>This room is ready for a working answer. No filler posts.</p><a class="text-link" href="${loginUrl('/new/')}">Sign in to contribute <i>↗</i></a></div>`;
   const content = `<div class="page-wrap archive-wrap">${taxonomy(activeType, activeSubject)}<header class="topic-intro" style="--topic:${activeType ? section(activeType).color : activeSubject ? subject(activeSubject).color : '#7c5cfc'}"><span class="eyebrow">${activeType ? 'FORMAT' : 'SUBJECT'} / PUBLIC ROOM</span><h1>${esc(title)}<span class="heading-period">.</span></h1><p>${esc(description)}</p><span class="topic-count">${filtered.length} ${filtered.length === 1 ? 'public note' : 'public notes'}</span></header>${list}<div class="back-index"><a href="${BASE}/">← Return to the knowledge field</a></div>${moderationNotice()}</div>`;
   return shell({ title: `${title} — Meta glasses and Meta integrations · MuseAi Social`, description, route, content, active: activeType });
 }
@@ -226,12 +244,12 @@ function articlePage(post) {
   const related = relatedPosts(post);
   const body = post.body.map(bodyBlock).join('\n');
   const comments = post.comments.length ? post.comments.map(comment => `<article class="comment"><div class="comment-by"><strong>${esc(comment.author)}</strong><time datetime="${esc(comment.date)}">${esc(comment.date)}</time></div><p>${esc(comment.body)}</p></article>`).join('') : '<p class="comment-empty">No replies yet. Sign in to be first.</p>';
-  const content = `<div class="page-wrap article-wrap">${taxonomy(post.topic, post.subject)}<article class="article" style="--topic:${kind.color}"><div class="article-mast"><a class="entry-tag" href="${BASE}/topic/${post.topic}/">${esc(kind.name)}</a><span class="article-code">FIELD NOTE / ${post.date.replaceAll('-', '.')}</span></div><h1>${esc(post.title)}</h1><p class="article-deck">${esc(post.excerpt)}</p><div class="article-meta"><span class="author-mark" aria-hidden="true">✳</span><span><b>${esc(post.author)}</b><small>Published ${esc(post.date)}</small></span><span class="meta-divider"></span><a href="${BASE}/subject/${post.subject}/" class="subject-label" style="--subject:${subj.color}">${esc(subj.name)} ↗</a><span class="meta-divider"></span><span class="read-time">${Math.max(2, Math.ceil(post.body.join(' ').split(/\s+/).length / 210))} min read</span></div><div class="article-body">${body}</div><div class="article-actions"><span class="static-vote">▲ ${Number(post.votes) || 0} <small>upvotes</small></span><a class="button button-quiet" href="${loginUrl(`${BASE}/${post.slug}/#comments`)}">Sign in to comment <span>↗</span></a><a class="save-link" href="${loginUrl(`${BASE}/${post.slug}/`)}">Save for later</a></div></article><section class="comments-section" id="comments"><div class="section-heading"><div><span class="eyebrow">THREAD / ${post.comments.length} REPLIES</span><h2>What others added<span class="heading-period">.</span></h2></div><a class="text-link" href="${loginUrl(`${BASE}/${post.slug}/#comments`)}">Join the thread ↗</a></div>${comments}</section><section class="related-section"><span class="eyebrow">FOLLOW THE THREAD</span><h2>Two notes in the same current.</h2><div class="related-grid">${related.map(other => `<a class="related-card" href="${postUrl(other)}"><span>${esc(section(other.topic).name)} / ${esc(subject(other.subject).name)}</span><strong>${esc(other.title)}</strong><i>Read related note ↗</i></a>`).join('')}</div><a class="topic-back" href="${BASE}/topic/${post.topic}/">Browse all in ${esc(kind.name)} →</a></section>${moderationNotice()}</div>`;
+  const content = `<div class="page-wrap article-wrap">${taxonomy(post.topic, post.subject)}<article class="article" style="--topic:${kind.color}"><div class="article-mast"><a class="entry-tag" href="${BASE}/topic/${post.topic}/">${esc(kind.name)}</a><span class="article-code">FIELD NOTE / ${post.date.replaceAll('-', '.')}</span></div><h1>${esc(post.title)}</h1><p class="article-deck">${esc(post.excerpt)}</p><div class="article-meta"><span class="author-mark" aria-hidden="true">✳</span><span><b>${esc(post.author)}</b><small>Published ${esc(post.date)}</small></span><span class="meta-divider"></span><a href="${BASE}/subject/${post.subject}/" class="subject-label" style="--subject:${subj.color}">${esc(subj.name)} ↗</a><span class="meta-divider"></span><span class="read-time">${Math.max(2, Math.ceil(post.body.join(' ').split(/\s+/).length / 210))} min read</span></div><div class="article-body">${body}</div><div class="article-actions"><button type="button" class="static-vote" data-vote data-slug="${post.slug}" aria-label="Upvote this post">▲ <span data-vote-count>${Number(post.votes) || 0}</span> <small>upvotes</small></button><a class="button button-quiet" href="${loginUrl(`/${post.slug}/`, '#comments')}">Sign in to comment <span>↗</span></a><a class="save-link" href="${loginUrl(`/${post.slug}/`)}">Save for later</a></div></article><section class="comments-section" id="comments"><div class="section-heading"><div><span class="eyebrow">THREAD / ${post.comments.length} REPLIES</span><h2>What others added<span class="heading-period">.</span></h2></div><a class="text-link" href="${loginUrl(`/${post.slug}/`, '#comments')}">Join the thread ↗</a></div><div id="comments-list">${comments}</div><form id="comment-form" class="comment-form local-form" data-slug="${post.slug}"><label>Your name<input name="author" maxlength="48" required placeholder="Your name"></label><label>Reply<textarea name="body" rows="3" required placeholder="Add to the thread."></textarea></label><button class="button button-primary" type="submit">Post reply</button><p class="form-status" id="comment-status" role="status" aria-live="polite"></p></form></section><section class="related-section"><span class="eyebrow">FOLLOW THE THREAD</span><h2>Two notes in the same current.</h2><div class="related-grid">${related.map(other => `<a class="related-card" href="${postUrl(other)}"><span>${esc(section(other.topic).name)} / ${esc(subject(other.subject).name)}</span><strong>${esc(other.title)}</strong><i>Read related note ↗</i></a>`).join('')}</div><a class="topic-back" href="${BASE}/topic/${post.topic}/">Browse all in ${esc(kind.name)} →</a></section>${moderationNotice()}</div>`;
   return shell({ title: `${post.title} — MuseAi Social`, description: post.excerpt, route: `/${post.slug}/`, content, type: 'article', article: post, active: post.topic });
 }
 
 function newPostPage() {
-  const content = `<div class="page-wrap draft-wrap">${taxonomy()}<div class="draft-shell"><span class="eyebrow">AUTHORING / LOCAL FIRST</span><h1>Capture a field note<span class="heading-period">.</span></h1><p class="draft-lead">Write a lesson or a build. This editor saves only to this browser and lets you export a JSON draft; it does not publish or send your content.</p><form id="draft-form" class="draft-form"><label>Post title<input name="title" maxlength="120" required placeholder="What did you learn or build?"></label><div class="form-pair"><label>Format<select name="topic">${Object.entries(topics.sections).map(([key, item]) => `<option value="${key}">${esc(item.name)}</option>`).join('')}</select></label><label>Subject<select name="subject">${Object.entries(topics.subjects).map(([key, item]) => `<option value="${key}">${esc(item.name)}</option>`).join('')}</select></label></div><label>What happened?<textarea name="body" rows="9" required placeholder="Share the steps, result, what failed, or how someone else can try it."></textarea></label><div class="draft-actions"><button class="button button-primary" type="submit">Save draft on this device <span>↓</span></button><button class="button button-quiet" type="button" id="export-draft">Export draft JSON <span>↗</span></button></div><p class="form-status" id="draft-status" aria-live="polite"></p></form><aside class="draft-boundary"><strong>Nothing publishes from this page.</strong> Real posting, comments, votes, saves, and joining remain behind the existing FED Hub login and require a connected application service.</aside></div></div>`;
+  const content = `<div class="page-wrap draft-wrap">${taxonomy()}<div class="draft-shell"><span class="eyebrow">AUTHORING / LOCAL FIRST</span><h1>Capture a field note<span class="heading-period">.</span></h1><p class="draft-lead">Write a lesson or a build. This editor saves only to this browser and lets you export a JSON draft; it does not publish or send your content.</p><form id="draft-form" class="draft-form"><label>Post title<input name="title" maxlength="120" required placeholder="What did you learn or build?"></label><div class="form-pair"><label>Format<select name="topic">${Object.entries(topics.sections).map(([key, item]) => `<option value="${key}">${esc(item.name)}</option>`).join('')}</select></label><label>Subject<select name="subject">${Object.entries(topics.subjects).map(([key, item]) => `<option value="${key}">${esc(item.name)}</option>`).join('')}</select></label></div><label>What happened?<textarea name="body" rows="9" required placeholder="Share the steps, result, what failed, or how someone else can try it."></textarea></label><div class="draft-actions"><button class="button button-primary" type="submit">Save draft on this device <span>↓</span></button><button class="button button-quiet" type="button" id="export-draft">Export draft JSON <span>↗</span></button></div><p class="form-status" id="draft-status" aria-live="polite"></p></form><aside class="draft-boundary"><strong>Publishing needs the backend.</strong> With the server running (node backend/server.js), submitting publishes the post to the backend. Without it, the draft stays on this device until you export it. Comments, votes, saves, and joining remain behind the existing FED Hub login.</aside></div></div>`;
   return shell({ title: 'Draft a post — MuseAi Social', description: 'Create and save a local-only draft for MuseAi Social.', route: '/new/', content, noindex: true });
 }
 
@@ -301,9 +319,34 @@ const sitemapRoutes = ['/', '/all/', ...Object.keys(topics.sections).map(key => 
 const today = new Date().toISOString().slice(0, 10);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapRoutes.map((route, index) => `  <url><loc>${canonical(route)}</loc><lastmod>${today}</lastmod><priority>${index === 0 ? '1.0' : route.startsWith('/topic/') || route.startsWith('/subject/') ? '0.8' : '0.9'}</priority></url>`).join('\n')}\n</urlset>\n`;
 await fs.writeFile(path.join(OUT, 'sitemap.xml'), sitemap);
-await fs.writeFile(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: ${BASE}/\nDisallow: ${BASE}/new/\nDisallow: ${BASE}/login/\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
+await fs.writeFile(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: ${BASE}/\nDisallow: ${BASE}/new.html\nDisallow: ${BASE}/login.html\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
 await fs.writeFile(path.join(OUT, '_headers'), `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n\n${BASE}/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n\n${BASE}/*\n  Cache-Control: public, max-age=0, must-revalidate\n`);
-await fs.writeFile(path.join(OUT, '_redirects'), BASE ? `${BASE} ${BASE}/ 301\n` : '');
+await fs.writeFile(path.join(OUT, '_redirects'), BASE ? `/ ${BASE}/ 301\n${BASE} ${BASE}/ 301\n` : '');
 await fs.writeFile(path.join(OUT, '.nojekyll'), '');
+// Root landing page: without this, every static host serves a 404 at /
+// because the site itself lives under BASE (e.g. /social/). A real
+// index.html redirect works on ALL static hosts, including GitHub Pages,
+// which ignores _redirects entirely. Skipped for root deploys (BASE === ''),
+// where writePage('/') already put the homepage at dist/index.html.
+if (BASE) {
+  const target = `${BASE}/`;
+  await fs.writeFile(path.join(OUT, 'index.html'), `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=${target}">
+  <meta name="robots" content="noindex,follow">
+  <link rel="canonical" href="${canonical('/')}">
+  <title>MuseAi Social — redirecting</title>
+  <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0e0e14;color:#ececf1;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}main{text-align:center;padding:2rem}h1{font-size:1.6rem;margin:0 0 .5rem}p{color:#a1a1b3;margin:0 0 1.5rem}a{display:inline-block;padding:.8rem 1.4rem;border-radius:999px;background:#7c5cfc;color:#fff;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+  <main><h1>MuseAi Social</h1><p>Opening the field notes&hellip;</p><a href="${target}">Continue to MuseAi Social &nearr;</a></main>
+  <script>window.location.replace(${JSON.stringify(target)});</script>
+</body>
+</html>
+`);
+}
 await fs.writeFile(path.join(OUT, '404.html'), shell({ title: 'Not found — MuseAi Social', description: 'That page was not found.', route: '/', relativeLinks: false, content: `<div class="page-wrap not-found"><span class="eyebrow">404 / OFF THE MAP</span><h1>No signal here<span class="heading-period">.</span></h1><a class="button button-primary" href="${BASE}/">Back to the field ↗</a></div>` }));
 console.log(`Built ${sitemapRoutes.length} public pages, 3 utility pages, sitemap, robots, headers, and shared assets at ${SITE_DIR}.`);

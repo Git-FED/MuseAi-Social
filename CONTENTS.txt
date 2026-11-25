@@ -12,23 +12,26 @@ Root project files
 - .github/workflows/pages.yml: user-owned GitHub Pages build/deploy workflow
 - data/topics.json: post formats and Meta subject taxonomy
 - data/posts.json: ten supplied starter entries and comments
+- backend/server.js: zero-dependency Node backend, serves dist/ plus the /api posts, comments, votes, and topics endpoints (run: npm start)
+- backend/seed.json: the 10 starter posts and taxonomy the backend loads on first run (backend/data.json is created from it and holds live changes)
 - src/style.css: responsive dark FED-theme layouts, ticker, and reduced-motion rules
 - src/flow-field.js: animated flowing contour background; no orbital imagery
 - src/app.js: archive controls, local drafts/room UI, and age-gated provider loading
 - src/assets/: symbol-only SVG/ICO favicon, five optimized promotional WebP illustrations, animated GIF, and optimized user-provided mascot avatar
 
-dist/
+dist/ — FLAT: every page is one .html file in this folder, no per-page folders.
+Upload the contents of dist/ to any static host and the site works at the root.
+- index.html: public landing page
+- all.html: searchable/filterable archive
+- topic-learn.html, topic-build.html, topic-help.html, topic-show.html, topic-news.html: Learn, Build, Help, Show, News
+- subject-meta-glasses.html, subject-meta-ai.html, subject-meta-integrations.html: Meta Glasses, Meta AI app, Meta integrations
+- <post-slug>.html: ten canonical article pages
+- new.html: noindex local-only authoring page
+- login.html: informational HTML sign-in boundary
+- community.html: centered Discord widget
+- support.html: age-acknowledgment gate and provider directory
+- thanks.html: local thank-you page
 - robots.txt, sitemap.xml, 404.html, favicon.ico, _headers, _redirects, .nojekyll
-- social/index.html: public landing page
-- social/all/index.html: searchable/filterable archive
-- social/topic/<topic>/index.html: Learn, Build, Help, Show, News
-- social/subject/<subject>/index.html: Meta Glasses, Meta AI app, Meta integrations
-- social/<post-slug>/index.html: ten canonical article pages
-- social/new/index.html: noindex local-only authoring page
-- social/login/index.html: informational HTML sign-in boundary
-- social/community/index.html: centered Discord widget
-- social/support/index.html: age-acknowledgment gate and provider directory
-- social/thanks/index.html: local thank-you page
-- social/assets/: scripts, styles, mascot artwork, symbol marks, and GIF
+- assets/: scripts, styles, mascot artwork, symbol marks, and GIF (the only subfolder)
 
 The ZIP is a portable static-file handoff. No site has been published, no account or repository has been connected, and no Manus URL is included.

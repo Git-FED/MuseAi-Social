@@ -1,6 +1,6 @@
 User-agent: *
-Allow: /social/
-Disallow: /social/new/
-Disallow: /social/login/
+Allow: /
+Disallow: /new.html
+Disallow: /login.html
 
 Sitemap: https://www.fedpromptly.com/sitemap.xml
