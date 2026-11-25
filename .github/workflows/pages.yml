@@ -25,7 +25,20 @@ jobs:
         with:
           node-version: 20
       - name: Build static HTML
-        run: npm run build
+        env:
+          SITE_BASE_URL: https://${{ github.repository_owner }}.github.io
+        run: |
+          # GitHub Pages serves a user site (OWNER.github.io) at the domain
+          # root and a project site (OWNER.github.io/REPO) under /REPO.
+          # Derive the site base path from the repo name so links, assets,
+          # sitemap, and robots all match where the site actually lives.
+          # The site is flat: every page is one .html file in dist/.
+          if [ "${{ github.event.repository.name }}" = "${{ github.repository_owner }}.github.io" ]; then
+            export SITE_BASE_PATH=/
+          else
+            export SITE_BASE_PATH=/${{ github.event.repository.name }}
+          fi
+          npm run build
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload generated site
