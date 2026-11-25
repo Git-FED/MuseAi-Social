@@ -1,5 +1,0 @@
-# Cloudflare Pages project configuration.
-# Build locally or in Cloudflare with: npm run build
-name = "museai-social-pages"
-compatibility_date = "2026-11-22"
-pages_build_output_dir = "./dist"
