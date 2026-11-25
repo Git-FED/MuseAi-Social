@@ -109,8 +109,16 @@
   function renderRooms() {
     if (!savedRooms) return;
     const rooms = roomList();
-    savedRooms.innerHTML = rooms.length ? `<strong>Room drafts on this device</strong><ul>${rooms.map(room => `<li>${escapeHtml(room.name)} · ${escapeHtml(room.subjectName)}</li>`).join('')}</ul>` : '';
+    savedRooms.innerHTML = rooms.length ? `<strong>Room drafts on this device</strong><ul>${rooms.map((room, i) => `<li>${escapeHtml(room.name)} · ${escapeHtml(room.subjectName)}<button type="button" class="room-delete" data-room-delete="${i}" aria-label="Delete room draft ${escapeHtml(room.name)}">Delete</button></li>`).join('')}</ul><p class="modal-copy">Drafts live on this device, so the person who made a draft here can delete it here. On the live site, only admin and the room's creator can delete a room.</p>` : '';
   }
+  savedRooms?.addEventListener('click', event => {
+    const button = event.target.closest('[data-room-delete]');
+    if (!button) return;
+    const rooms = roomList();
+    rooms.splice(Number(button.dataset.roomDelete), 1);
+    storage.set(roomKey, rooms);
+    renderRooms();
+  });
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
   }

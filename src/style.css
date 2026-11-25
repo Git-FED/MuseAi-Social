@@ -275,3 +275,6 @@ main { position: relative; z-index: 2; }
   .ticker-track, .hero-art, .hero-visual::after { animation: none !important; }
   .promo-card:hover, .provider-button:hover { transform: none; }
 }
+
+.article-cover { width: 100%; border-radius: 18px; border: 1px solid rgba(222,219,255,.11); margin: 1.2em 0 0.4em; display: block; }
+.room-delete { margin-left: .6em; background: none; border: 1px solid rgba(251,113,133,.5); color: #fb7185; border-radius: 999px; padding: .15em .8em; font: inherit; font-size: .85em; font-weight: 700; cursor: pointer; }

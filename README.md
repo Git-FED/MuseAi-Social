@@ -30,13 +30,18 @@ That serves the whole site with the live backend at `http://localhost:3000/`. Ch
 API endpoints:
 
 - `GET /api/posts` — all posts
-- `GET /api/posts/:slug` — one post with its comments
-- `POST /api/posts` — publish a post (`title`, `topic`, `subject`, `body`, optional `author`)
-- `POST /api/posts/:slug/comments` — add a comment (`author`, `body`)
+- `GET /api/posts/:slug` — one post with its comments; each call adds 1 to the post's view count
+- `POST /api/posts` — publish a post (`title`, `topic`, `subject`, `body`, optional `author`, `authorId`, `authorUsername`, `attachments`)
+- `POST /api/posts/:slug/comments` — add a comment (`author`, `body`, optional `attachments`)
 - `POST /api/posts/:slug/vote` — upvote a post
 - `GET /api/topics` — the topic and subject taxonomy
+- `GET /api/rooms` — all community rooms
+- `POST /api/rooms` — create a room (`name`, `subject`, optional `authorId` + `authorUsername`, stored as the room's creator)
+- `DELETE /api/rooms/:id` — delete a room; JSON body `{callerId, callerUsername}`. Admin (username `admin`) can delete any room; everyone else can only delete a room they created. Rooms with no creator are admin-only.
 
-Data lives in `backend/data.json`, seeded from `backend/seed.json` (the 10 starter posts) on first run. Delete `data.json` to reset to the seed. New posts published to the API appear in the archive after rebuilding the static pages (`npm run build`), because the archive is pre-rendered HTML.
+Posts and comments accept `attachments`: up to 6 per post or comment, images (jpg/png/gif/webp) and files (pdf/txt/md/zip) under 10 MB each, sent as `{name, mime, dataBase64}` and stored in the JSON data file.
+
+Data lives in `backend/data.json`, seeded from `backend/seed.json` (the 10 starter posts, authored by Mod Bot with a generated cover image each, plus the room list) on first run. Delete `data.json` to reset to the seed. New posts published to the API appear in the archive after rebuilding the static pages (`npm run build`), because the archive is pre-rendered HTML.
 
 Without the server the static files still work, but publishing, comments, and votes stay local-only in the browser: the new-post form saves a local draft, and the vote and reply controls tell you the backend is not connected.
 
@@ -46,7 +51,11 @@ No login on the bundled backend: it is meant for local or single-owner use. The 
 
 The generated static HTML includes the public homepage, all-posts index, five topic pages, three subject pages, ten individual article pages, a Discord community page, support/subscription directory, and thank-you page. `login.html` is a real explanatory HTML page because this bundle does not include the production sign-in backend. `new.html` is a local-only draft editor. A custom 404 page, root favicon, SVG favicon, sitemap, robots file, response headers, and provider-free initial payment page are included.
 
-Internal navigation uses routes that exist as HTML files in `dist/social/`. Payment, newsletter, and Discord destinations are external provider pages/embeds and are disclosed as such. No Ko-fi overlay/widget or Ko-fi script is included. The Discord widget is in a centered responsive container.
+Internal navigation uses routes that exist as HTML files in `dist/social/`. Payment, newsletter, and Discord destinations are external provider pages/embeds and are disclosed as such. No Ko-fi overlay/widget or Ko-fi script is included. The Discord widget sits at the bottom of the community page in a centered responsive container.
+
+## Synced with the live MuseAi Social space (Nov 25, 2026)
+
+This package matches the current live version: all 10 starter posts are authored by Mod Bot (not Git-FED), each starter post has its generated cover image (`post-*.webp`, shown on its article page and counted in the feed), every post carries a view count that goes up by 1 per open, posts and comments support image/file attachments, the community page's Discord widget moved to the bottom, and rooms can be deleted by admin or by the person who created them (the room-draft list on this device has a Delete button per draft, and the backend enforces the same rule on `DELETE /api/rooms/:id`). The nine generated server-rail icons from the live space's Servers tab are included as `server-icon-*.webp` assets.
 
 ## Age-gated payment and subscription options
 

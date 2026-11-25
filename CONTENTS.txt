@@ -12,12 +12,12 @@ Root project files
 - .github/workflows/pages.yml: user-owned GitHub Pages build/deploy workflow
 - data/topics.json: post formats and Meta subject taxonomy
 - data/posts.json: ten supplied starter entries and comments
-- backend/server.js: zero-dependency Node backend, serves dist/ plus the /api posts, comments, votes, and topics endpoints (run: npm start)
-- backend/seed.json: the 10 starter posts and taxonomy the backend loads on first run (backend/data.json is created from it and holds live changes)
+- backend/server.js: zero-dependency Node backend, serves dist/ plus the /api posts (with view counts and attachments), comments, votes, topics, and rooms endpoints — rooms record their creator and DELETE /api/rooms/:id allows admin or the room's creator only (run: npm start)
+- backend/seed.json: the 10 starter posts (authored by Mod Bot, each with a generated cover image and a view count), the taxonomy, and the room list the backend loads on first run (backend/data.json is created from it and holds live changes)
 - src/style.css: responsive dark FED-theme layouts, ticker, and reduced-motion rules
 - src/flow-field.js: animated flowing contour background; no orbital imagery
 - src/app.js: archive controls, local drafts/room UI, and age-gated provider loading
-- src/assets/: symbol-only SVG/ICO favicon, five optimized promotional WebP illustrations, animated GIF, and optimized user-provided mascot avatar
+- src/assets/: symbol-only SVG/ICO favicon, five optimized promotional WebP illustrations, animated GIF, optimized user-provided mascot avatar, the 10 generated starter-post cover images (post-*.webp), and the 9 generated server-rail icons from the live space's Servers tab (server-icon-*.webp)
 
 dist/ — FLAT: every page is one .html file in this folder, no per-page folders.
 Upload the contents of dist/ to any static host and the site works at the root.
@@ -28,7 +28,7 @@ Upload the contents of dist/ to any static host and the site works at the root.
 - <post-slug>.html: ten canonical article pages
 - new.html: noindex local-only authoring page
 - login.html: informational HTML sign-in boundary
-- community.html: centered Discord widget
+- community.html: rooms and links first, centered Discord widget at the bottom
 - support.html: age-acknowledgment gate and provider directory
 - thanks.html: local thank-you page
 - robots.txt, sitemap.xml, 404.html, favicon.ico, _headers, _redirects, .nojekyll
