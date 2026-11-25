@@ -56,12 +56,37 @@
     const values = Object.fromEntries(new FormData(draftForm).entries());
     return { ...values, savedAt: new Date().toISOString(), localOnly: true };
   }
-  draftForm?.addEventListener('submit', event => {
+  async function publishDraft(draft) {
+    try {
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: draft.title, topic: draft.topic, subject: draft.subject, body: draft.body }),
+      });
+      if (!response.ok) return null;
+      const post = await response.json();
+      return post && post.slug ? post : null;
+    } catch { return null; }
+  }
+  draftForm?.addEventListener('submit', async event => {
     event.preventDefault();
     const draft = collectDraft();
     if (!draftForm.reportValidity()) return;
+    if (draftStatus) draftStatus.textContent = 'Publishing to the backend…';
+    const published = await publishDraft(draft);
+    if (published) {
+      try { localStorage.removeItem(draftKey); } catch { /* Local draft already cleared by publish. */ }
+      if (draftStatus) {
+        draftStatus.textContent = '';
+        const link = document.createElement('a');
+        link.href = `${published.slug}.html`;
+        link.textContent = published.title;
+        draftStatus.append('Published to the backend as ', link, '. Rebuild the static pages (npm run build) to show it in the archive.');
+      }
+      return;
+    }
     const saved = storage.set(draftKey, draft);
-    if (draftStatus) draftStatus.textContent = saved ? 'Draft saved in this browser only. Nothing was published or sent.' : 'Browser storage is unavailable. Use Export draft JSON instead.';
+    if (draftStatus) draftStatus.textContent = saved ? 'Backend not connected. Draft saved in this browser only. Nothing was published or sent.' : 'Browser storage is unavailable. Use Export draft JSON instead.';
   });
   document.querySelector('#export-draft')?.addEventListener('click', () => {
     const draft = collectDraft();
@@ -84,8 +109,16 @@
   function renderRooms() {
     if (!savedRooms) return;
     const rooms = roomList();
-    savedRooms.innerHTML = rooms.length ? `<strong>Room drafts on this device</strong><ul>${rooms.map(room => `<li>${escapeHtml(room.name)} · ${escapeHtml(room.subjectName)}</li>`).join('')}</ul>` : '';
+    savedRooms.innerHTML = rooms.length ? `<strong>Room drafts on this device</strong><ul>${rooms.map((room, i) => `<li>${escapeHtml(room.name)} · ${escapeHtml(room.subjectName)}<button type="button" class="room-delete" data-room-delete="${i}" aria-label="Delete room draft ${escapeHtml(room.name)}">Delete</button></li>`).join('')}</ul><p class="modal-copy">Drafts live on this device, so the person who made a draft here can delete it here. On the live site, only admin and the room's creator can delete a room.</p>` : '';
   }
+  savedRooms?.addEventListener('click', event => {
+    const button = event.target.closest('[data-room-delete]');
+    if (!button) return;
+    const rooms = roomList();
+    rooms.splice(Number(button.dataset.roomDelete), 1);
+    storage.set(roomKey, rooms);
+    renderRooms();
+  });
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
   }
@@ -195,4 +228,70 @@
   let alreadyConfirmed = false;
   try { alreadyConfirmed = sessionStorage.getItem(AGE_KEY) === 'yes'; } catch { /* Treat unavailable storage as unconfirmed. */ }
   if (alreadyConfirmed) revealProviders();
+})();
+
+(() => {
+  const voteButton = document.querySelector('[data-vote]');
+  const commentForm = document.querySelector('#comment-form');
+  if (!voteButton && !commentForm) return;
+
+  async function apiRequest(path, options) {
+    try {
+      const response = await fetch(path, options);
+      const data = await response.json().catch(() => null);
+      return { ok: response.ok, data };
+    } catch { return { ok: false, data: null }; }
+  }
+
+  voteButton?.addEventListener('click', async () => {
+    const slug = voteButton.dataset.slug;
+    const count = voteButton.querySelector('[data-vote-count]');
+    const { ok, data } = await apiRequest(`/api/posts/${encodeURIComponent(slug)}/vote`, { method: 'POST' });
+    if (ok && data) {
+      if (count) count.textContent = data.votes;
+      voteButton.disabled = true;
+      voteButton.title = 'Upvoted.';
+    } else {
+      voteButton.title = 'Backend not connected. Votes need the server running (node backend/server.js).';
+    }
+  });
+
+  commentForm?.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!commentForm.reportValidity()) return;
+    const status = document.querySelector('#comment-status');
+    const slug = commentForm.dataset.slug;
+    const values = Object.fromEntries(new FormData(commentForm).entries());
+    if (status) status.textContent = 'Posting reply…';
+    const { ok, data } = await apiRequest(`/api/posts/${encodeURIComponent(slug)}/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ author: values.author, body: values.body }),
+    });
+    if (!ok || !data) {
+      if (status) status.textContent = 'Backend not connected. Start the server (node backend/server.js) to post replies.';
+      return;
+    }
+    const list = document.querySelector('#comments-list');
+    if (list) {
+      const empty = list.querySelector('.comment-empty');
+      if (empty) empty.remove();
+      const article = document.createElement('article');
+      article.className = 'comment';
+      const by = document.createElement('div');
+      by.className = 'comment-by';
+      const strong = document.createElement('strong');
+      strong.textContent = data.author;
+      const time = document.createElement('time');
+      time.setAttribute('datetime', data.date);
+      time.textContent = data.date;
+      by.append(strong, time);
+      const p = document.createElement('p');
+      p.textContent = data.body;
+      article.append(by, p);
+      list.appendChild(article);
+    }
+    commentForm.reset();
+    if (status) status.textContent = 'Reply posted to the backend.';
+  });
 })();
