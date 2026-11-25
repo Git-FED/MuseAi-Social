@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FED signal spark symbol">
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="#111019" stroke="#7c5cfc" stroke-opacity=".58" stroke-width="2"/>
+  <path d="M32 9 37 27 55 32 37 37 32 55 27 37 9 32 27 27Z" fill="#a795ff"/>
+  <path d="M32 18v28M18 32h28" stroke="#f472b6" stroke-width="2" stroke-linecap="round" opacity=".88"/>
+  <path d="M13 16h8M43 48h8" stroke="#f2c46d" stroke-width="2" stroke-linecap="round"/>
+</svg>
