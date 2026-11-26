@@ -7,6 +7,8 @@ betting with Muse2, Lyft money, FED-SPA, the Meta AI app and Meta
 integrations, Muse AI news, and making his projects pay. No hype, just
 what works.
 
+![MuseAi Social in neon violet and pink letters, with the fluffy cream Muse AI agent creature holding a glowing cube](brand/brand-hero.jpg)
+
 ## What it is about
 
 - **Muse AI and the App Store**: Muse as the operator of Git-FED's
@@ -20,6 +22,8 @@ what works.
   investigation map, and the routes that make the projects pay.
 - **Meta AI and integrations**: Muse showing up in Meta surfaces like
   Instagram DMs and in-chat shopping, covered plainly as they land.
+
+![The fluffy Muse AI agent creature at a fork in the road: a violet Learn path lined with books and lightbulbs, a pink Build path lined with wrenches, gears, and blueprints](brand/brand-fork.jpg)
 
 Posts are sorted by topic, subject, and flair:
 
@@ -38,6 +42,14 @@ Posts are sorted by topic, subject, and flair:
   Tools & Workflows. Every flair has a post, every post has a cover
   image, and the flair row above the feed filters the board by tag.
 
+![Five glowing neon tiles in violet and pink: Learn with an open book, Build with a wrench and hammer, Help with a life ring, Show with an eye in a frame, News with a newspaper](brand/brand-tiles.jpg)
+
+![The fluffy Muse AI agent creature standing at the center of a glowing neon cross: Learn in blue, Build in orange, Show in green, Help in red, and News in yellow, with Meta Glasses, Meta AI, and Meta Integrations tags along the arms](brand/brand-cross.jpg)
+
+![The fluffy Muse AI agent creature beside a glowing violet grid: Meta Glasses, Meta AI, and Integrations across the top, Learn, Build, Help, Show, and News down the side](brand/brand-grid.jpg)
+
+![The fluffy Muse AI agent creature looking up at three dark pedestals holding glowing neon icons: smart glasses, a star, and puzzle pieces](brand/brand-pedestals.jpg)
+
 ## The news cycle
 
 The board refreshes every 6 hours. The scrolling ticker at the top
@@ -47,6 +59,8 @@ post becomes the main slide, and the older featured posts stay in the
 slider as secondary slides, up to a maximum of 20 slides (the
 Featured slider maximum is 20). A new Mod Bot post is added every
 6 hours from the standing cycle pool of project and AI news updates.
+
+![The fluffy Muse AI agent creature wearing dark glasses, looking at a floating screen with a pink ticker strip running across it](brand/brand-ticker.jpg)
 
 ## The tabs
 
@@ -65,13 +79,36 @@ Workflows, Support, Thanks. Support and Thanks are always last.
 - **Wiki**: longer guides: getting started, Muse AI basics, the Meta
   Glasses guide, the Meta AI app guide, Meta integrations, posting and
   community rules, skills, connectors and GitHub, and a glossary.
-- **Workflows**: the standing step-by-step workflows behind the board:
-  one post out to thirteen platforms, making a project pay through the
-  Muse AI App Store gate, betting with Muse2 (paper first, always),
-  Lyft money on the after-11-PM shift, and building with GitHub from
-  commit to a verified live site.
-- **Support**: ways to support the project (behind an 18+ gate).
-- **Thanks**: a thank-you page from the owner.
+- **Workflows**: the standing step-by-step workflows behind the board,
+  named for what they do: Post Once, Publish Everywhere; Turn a Project
+  Into Income; Bet With a Paper-First Plan; Earn After 11 PM; Ship Code
+  With GitHub; Turn Daily News Into Posts; Grow a Community That Stays
+  Active; and Learn a New Tool in a Weekend.
+- **Support**: the help desk — help topics, FAQ and Wiki links, a help
+  form that saves your request, and ways to support the project (behind
+  an 18+ gate).
+- **Thanks**: a celebration page from the owner: a thank-you message,
+  what the community is thankful for, and contributor highlights.
+
+![The fluffy Muse AI agent creature surfing a glowing violet and pink neon wave, with the Discord and Reddit logos crossed out in red behind it](brand/brand-surf.jpg)
+
+*Servers: one home base, no Discord or Reddit account needed.*
+
+![Your Community. Your Code. The fluffy Muse AI agent creature standing in a glowing violet ring of code panels, clouds, and a dist/ folder](brand/brand-community.jpg)
+
+*Community: rooms and live chat, in the community's own code.*
+
+![Yours to Build: the fluffy Muse AI agent creature sits on a hill beside a glowing cube, looking over a lit-up city at night](brand/brand-build.jpg)
+
+![Ready to Host: the fluffy Muse AI agent creature standing next to a glowing dist/ folder box plugged into two clouds, one with the GitHub cat logo and one with the Cloudflare cloud logo](brand/brand-host.jpg)
+
+*Workflows: build it, then host it. The built site ships as a plain
+`dist/` folder to GitHub Pages.*
+
+![The fluffy Muse AI agent creature waving hello and holding a glowing violet neon star](brand/brand-wave.jpg)
+
+*Support and Thanks: the wave is for everyone who keeps the signal
+humming.*
 
 ## How to use it
 
@@ -101,6 +138,8 @@ To take part, sign in:
    exception: a room with no recorded creator can be deleted by any
    signed-in member with a username.
 
+![The fluffy Muse AI agent creature floating among post cards, next to a big glowing violet toggle switch and a glowing pink heart](brand/brand-vote.jpg)
+
 ## Themes
 
 Five themes recolor the whole site: FED Violet (the default), Ocean,
@@ -121,11 +160,16 @@ server behind it, posts, replies, votes, rooms, and chats you make here
 are saved in your own browser on your device instead of being shared
 with everyone.
 
+![The fluffy Muse AI agent creature holding a glowing violet folder labeled MuseAi Social](brand/brand-folder.jpg)
+
 ## About this README
 
 This README ships inside the site build (in the `dist/` folder, next to
 `index.html`, `404.html`, and `.nojekyll`), so every deploy copies it to
-the root of this repo along with the site. It is part of the build on
+the root of this repo along with the site. Its pictures are Git-FED's
+own MuseAi Social brand art, and they ship with it in the `brand/`
+folder inside `dist/`, copied into every build at the same stable
+paths this README links to. It is part of the build on
 purpose: the repo should always have a README, so please do not delete
 it when updating the site. Upload the contents of `dist/` to the repo
 root and this file comes with them.
