@@ -16,9 +16,12 @@ jobs:
           curl -L -o build.zip "https://muse.ai/files/1262794840260867/4912263529006810/px5vwuz0ppsvyupyh6i1gl2a/MuseAi-Social-Portable-BACKEND.zip"
           unzip -o build.zip
           ls -R museai-social-portable/dist
-          find . -mindepth 1 ! -name '.git' -exec rm -rf {} +
-          cp -r museai-social-portable/dist/. .
+          mkdir -p /tmp/newbuild
+          cp -r museai-social-portable/dist/. /tmp/newbuild/
           rm -rf museai-social-portable build.zip
+          find . -mindepth 1 ! -name '.git' -exec rm -rf {} +
+          cp -r /tmp/newbuild/. .
+          rm -rf /tmp/newbuild
           test -f README.md
           ls -la
       - name: Commit build
