@@ -1,0 +1,31 @@
+name: Update MuseAi Social build
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and deploy new build
+        run: |
+          set -e
+          curl -L -o /tmp/build.zip "https://muse.ai/files/1262794840260867/1127612330254322/c52ix8fhi9shf0qa3gqni5ws/MuseAi-Social-Portable-BACKEND.zip"
+          ls -lh /tmp/build.zip
+          rm -rf /tmp/newbuild /tmp/dist
+          mkdir -p /tmp/newbuild
+          unzip -q /tmp/build.zip -d /tmp/newbuild
+          ls -R /tmp/newbuild | head -n 200
+          cp -r /tmp/newbuild/museai-social-portable/dist /tmp/dist
+          ls /tmp/dist
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/dist/. .
+          test -f README.md
+          ls -la
+          git config user.name "Git-FED"
+          git config user.email "git-fed@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "MuseAi Social Space build for GitHub Pages" || echo "nothing to commit"
+          git push origin main
