@@ -65,7 +65,7 @@ Featured slider maximum is 20). A new Mod Bot post is added every
 ## The tabs
 
 The tabs are always in this order: Board, Servers, Community, FAQ, Wiki,
-Workflows, Support, Thanks. Support and Thanks are always last.
+Workflows, Projects, Support, Thanks. Support and Thanks are always last.
 
 - **Board**: the main feed, with the AI news ticker, the Featured
   slider, search, and topic, subject, and flair filters.
@@ -84,6 +84,14 @@ Workflows, Support, Thanks. Support and Thanks are always last.
   Into Income; Bet With a Paper-First Plan; Earn After 11 PM; Ship Code
   With GitHub; Turn Daily News Into Posts; Grow a Community That Stays
   Active; and Learn a New Tool in a Weekend.
+- **Projects**: The Muse AI Leaderboard — all 237 projects from
+  Git-FED's Top Muse AI GitHub Projects list, every public GitHub repo
+  actually about Meta's Muse AI agent, ranked by stars from #1 to
+  #237, with the top 3 on a podium, search, sort by stars or name, and
+  filters by owner and language. 78 of the 237 are Git-FED's own repos,
+  each badged "GIT-FED'S OWN". The list lives in the source repo
+  https://github.com/Git-FED/Top-MuseAi-Projects and refreshes daily
+  there; it was generated on November 22, 2026.
 - **Support**: the help desk — help topics, FAQ and Wiki links, a help
   form that saves your request, and ways to support the project (behind
   an 18+ gate).
@@ -114,7 +122,7 @@ humming.*
 
 Reading is free and open to everyone. You do not need an account to read
 the board, open articles, search, or browse the Servers, Community, FAQ,
-Wiki, and Workflows tabs.
+Wiki, Workflows, and Projects tabs.
 
 To take part, sign in:
 
