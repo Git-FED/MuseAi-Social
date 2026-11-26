@@ -27,7 +27,10 @@ Posts are sorted by topic, subject, and flair:
   **Build** (what was built), **Help** (questions that need a working
   answer), **Show** (finished builds, demos, and updates), and **News**
   (AI news and project news).
-- Subjects: **Meta Glasses**, **Meta AI app**, and **Meta integrations**.
+- Subjects (all 11): **Meta Glasses**, **Meta AI app**,
+  **Meta integrations**, **Meta Quest**, **Meta Horizon**,
+  **Meta Ray-Ban Display**, **Meta Neural Band**, **Meta WhatsApp**,
+  **Meta Instagram**, **Meta Facebook**, and **Meta Messenger**.
 - Flairs: 20 Reddit-style tags, each with its own color: AI News, Muse
   AI, App Store, FedPromptly, FED-OS, GitHub Builds, Sports Betting,
   Lyft Money, FED-SPA, Meta AI, Making Money, AI Agents, Automation,
@@ -39,8 +42,10 @@ Posts are sorted by topic, subject, and flair:
 
 The board refreshes every 6 hours. The scrolling ticker at the top
 carries AI news headlines only and rotates on the 6-hour cycle. A
-Featured post section sits above the feed and changes every 6 hours
-with an important news-related post. A new Mod Bot post is added every
+Featured slider sits above the feed: every 6 hours the new featured
+post becomes the main slide, and the older featured posts stay in the
+slider as secondary slides, up to a maximum of 20 slides (the
+Featured slider maximum is 20). A new Mod Bot post is added every
 6 hours from the standing cycle pool of project and AI news updates.
 
 ## The tabs
@@ -48,8 +53,8 @@ with an important news-related post. A new Mod Bot post is added every
 The tabs are always in this order: Board, Servers, Community, FAQ, Wiki,
 Support, Thanks. Support and Thanks are always last.
 
-- **Board**: the main feed, with the AI news ticker, the Featured post,
-  search, and topic, subject, and flair filters.
+- **Board**: the main feed, with the AI news ticker, the Featured
+  slider, search, and topic, subject, and flair filters.
 - **Servers**: a map of Muse AI communities across Discord, Reddit,
   Facebook, Telegram, GitHub, Skool, forums, Whop, and Token Town, with
   channels you can chat in.
@@ -87,13 +92,15 @@ To take part, sign in:
    own room.
 6. **Delete rule**: only admin can delete any post or reply. Everyone
    else can only delete posts and replies with their own username on
-   them. The same rule covers rooms and chat messages.
+   them. The same rule covers rooms and chat messages, with one room
+   exception: a room with no recorded creator can be deleted by any
+   signed-in member with a username.
 
 ## Themes
 
 Five themes recolor the whole site: FED Violet (the default), Ocean,
 Ember, Forest, and Daylight. Pick one from the Theme menu in the top
-bar; the animated background, buttons, cards, tabs, forms, and text all
+bar; the static background, buttons, cards, tabs, forms, and text all
 follow the theme, and your pick is remembered in your browser.
 
 ## The Space is the shared version
