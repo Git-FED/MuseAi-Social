@@ -51,7 +51,7 @@ Featured slider maximum is 20). A new Mod Bot post is added every
 ## The tabs
 
 The tabs are always in this order: Board, Servers, Community, FAQ, Wiki,
-Support, Thanks. Support and Thanks are always last.
+Workflows, Support, Thanks. Support and Thanks are always last.
 
 - **Board**: the main feed, with the AI news ticker, the Featured
   slider, search, and topic, subject, and flair filters.
@@ -65,6 +65,11 @@ Support, Thanks. Support and Thanks are always last.
 - **Wiki**: longer guides: getting started, Muse AI basics, the Meta
   Glasses guide, the Meta AI app guide, Meta integrations, posting and
   community rules, skills, connectors and GitHub, and a glossary.
+- **Workflows**: the standing step-by-step workflows behind the board:
+  one post out to thirteen platforms, making a project pay through the
+  Muse AI App Store gate, betting with Muse2 (paper first, always),
+  Lyft money on the after-11-PM shift, and building with GitHub from
+  commit to a verified live site.
 - **Support**: ways to support the project (behind an 18+ gate).
 - **Thanks**: a thank-you page from the owner.
 
@@ -72,7 +77,7 @@ Support, Thanks. Support and Thanks are always last.
 
 Reading is free and open to everyone. You do not need an account to read
 the board, open articles, search, or browse the Servers, Community, FAQ,
-and Wiki tabs.
+Wiki, and Workflows tabs.
 
 To take part, sign in:
 
