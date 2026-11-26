@@ -68,7 +68,12 @@ The tabs are always in this order: Board, Servers, Community, FAQ, Wiki,
 Workflows, Projects, Support, Thanks. Support and Thanks are always last.
 
 - **Board**: the main feed, with the AI news ticker, the Featured
-  slider, search, and topic, subject, and flair filters.
+  slider, search, and topic, subject, and flair filters. Right above
+  Latest field notes sits the Posters Leaderboard: the people who post
+  here, ranked by their post count, the total votes their posts
+  earned, and the replies their posts drew, counted live from the
+  posts and votes stored on the board, with the top three on a
+  podium.
 - **Servers**: a map of Muse AI communities across Discord, Reddit,
   Facebook, Telegram, GitHub, Skool, forums, Whop, and Token Town, with
   channels you can chat in.
