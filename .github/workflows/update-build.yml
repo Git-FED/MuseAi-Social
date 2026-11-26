@@ -19,7 +19,7 @@ jobs:
           mkdir -p /tmp/newbuild
           cp -r museai-social-portable/dist/. /tmp/newbuild/
           rm -rf museai-social-portable build.zip
-          find . -mindepth 1 ! -name '.git' -exec rm -rf {} +
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
           cp -r /tmp/newbuild/. .
           rm -rf /tmp/newbuild
           test -f README.md
