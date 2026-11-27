@@ -64,8 +64,11 @@ Featured slider maximum is 20). A new Mod Bot post is added every
 
 ## The tabs
 
-The tabs are always in this order: Board, Servers, Community, FAQ, Wiki,
+The tabs are always in this order: Board, Servers, Community, Wiki,
 Workflows, Projects, Support, Thanks. Support and Thanks are always last.
+There is no FAQ tab: the FAQ lives inside the Wiki, as its Frequently
+asked questions page. A support widget with the waving creature also
+sits in the bottom corner of the screen on every tab, one tap from help.
 
 - **Board**: the main feed, with the AI news ticker, the Featured
   slider, search, and topic, subject, and flair filters. Right above
@@ -73,22 +76,31 @@ Workflows, Projects, Support, Thanks. Support and Thanks are always last.
   here, ranked by their post count, the total votes their posts
   earned, and the replies their posts drew, counted live from the
   posts and votes stored on the board, with the top three on a
-  podium.
+  podium. The header's notification button is just a bell, with the
+  unread count on it.
 - **Servers**: a map of Muse AI communities across Discord, Reddit,
   Facebook, Telegram, GitHub, Skool, forums, Whop, and Token Town, with
-  channels you can chat in.
+  channels you can chat in. Likes on server messages and pinned posts
+  are stored in the backend per member, exactly like Board votes, so a
+  like stays liked across tab switches and reloads.
 - **Community**: rooms members create, each with its own live chat, and
-  the community Discord widget at the bottom of the page.
-- **FAQ**: short answers to the common questions, with links into the
-  Wiki.
+  the community Discord widget at the bottom of the page. A room's
+  creator can delete their own room, admin can delete any room, and a
+  room with no recorded creator can be deleted by any signed-in member
+  — always with a two-step confirm on the room's card.
 - **Wiki**: longer guides: getting started, Muse AI basics, the Meta
   Glasses guide, the Meta AI app guide, Meta integrations, posting and
-  community rules, skills, connectors and GitHub, and a glossary.
+  community rules, skills, connectors and GitHub, and a glossary — plus
+  the Frequently asked questions page: all 15 FAQ questions and
+  answers, moved here from the old FAQ tab, searchable with the rest of
+  the Wiki.
 - **Workflows**: the standing step-by-step workflows behind the board,
   named for what they do: Post Once, Publish Everywhere; Turn a Project
   Into Income; Bet With a Paper-First Plan; Earn After 11 PM; Ship Code
   With GitHub; Turn Daily News Into Posts; Grow a Community That Stays
-  Active; and Learn a New Tool in a Weekend.
+  Active; and Learn a New Tool in a Weekend. Signed-in members can also
+  add their own workflow with the New workflow form: title, description,
+  and steps, stored in the backend and listed with the built-ins.
 - **Projects**: The Muse AI Leaderboard — all 237 projects from
   Git-FED's Top Muse AI GitHub Projects list, every public GitHub repo
   actually about Meta's Muse AI agent, ranked by stars from #1 to
@@ -96,10 +108,15 @@ Workflows, Projects, Support, Thanks. Support and Thanks are always last.
   filters by owner and language. 78 of the 237 are Git-FED's own repos,
   each badged "GIT-FED'S OWN". The list lives in the source repo
   https://github.com/Git-FED/Top-MuseAi-Projects and refreshes daily
-  there; it was generated on November 22, 2026.
+  there; it was generated on November 22, 2026. Anyone can submit a
+  project for a place on the board with the Submit a project form
+  (repo URL, name, description, owner): submissions are stored as
+  pending, shown on the tab as pending submissions, and join the
+  leaderboard when an admin approves them.
 - **Support**: the help desk — help topics, FAQ and Wiki links, a help
   form that saves your request, and ways to support the project (behind
-  an 18+ gate).
+  an 18+ gate). The floating support widget in the bottom corner of
+  every tab opens the same help form.
 - **Thanks**: a celebration page from the owner: a thank-you message,
   what the community is thankful for, and contributor highlights.
 
@@ -126,7 +143,7 @@ humming.*
 ## How to use it
 
 Reading is free and open to everyone. You do not need an account to read
-the board, open articles, search, or browse the Servers, Community, FAQ,
+the board, open articles, search, or browse the Servers, Community,
 Wiki, Workflows, and Projects tabs.
 
 To take part, sign in:
