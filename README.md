@@ -120,10 +120,15 @@ sits in the bottom corner of the screen on every tab, one tap from help.
   are stored in the backend per member, exactly like Board votes, so a
   like stays liked across tab switches and reloads.
 - **Community**: rooms members create, each with its own live chat, and
-  the community Discord widget at the bottom of the page. A room's
-  creator can delete their own room, admin can delete any room, and a
-  room with no recorded creator can be deleted by any signed-in member
-  — always with a two-step confirm on the room's card.
+  the community Discord widget at the bottom of the page. Every room
+  card carries a visible red-outlined "Delete room" button in the same
+  row as "Open chat", whether you are signed in or out. Tapping it
+  opens the two-step confirm — "Delete this room?" / "Yes, delete" /
+  "Cancel" — for anyone allowed to delete: admin, the room's creator,
+  or any signed-in member for a room with no recorded creator. Anyone
+  else tapping it gets the reason shown in that card (sign in, or only
+  the room's creator or admin can delete it) instead of a missing
+  button.
 - **Wiki**: longer guides: getting started, Muse AI basics, the Meta
   Glasses guide, the Meta AI app guide, Meta integrations, posting and
   community rules, skills, connectors and GitHub, and a glossary — plus
