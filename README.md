@@ -53,12 +53,25 @@ Posts are sorted by topic, subject, and flair:
 ## The news cycle
 
 The board refreshes every 6 hours. The scrolling ticker at the top
-carries AI news headlines only and rotates on the 6-hour cycle. A
+carries AI news headlines only and rotates on the 6-hour cycle. The
+ticker loop is a seamless infinite scroll at reading pace: the track
+carries two identical copies of the headline list and translates
+exactly one copy width, so there is no jump, no gap, and no blank
+space, and its speed is set by reading pace — about 16.25 seconds
+per headline, so the current 8 headlines loop in about 130 seconds.
+The background behind it stays completely static. A
 Featured slider sits above the feed: every 6 hours the new featured
 post becomes the main slide, and the older featured posts stay in the
 slider as secondary slides, up to a maximum of 20 slides (the
 Featured slider maximum is 20). A new Mod Bot post is added every
 6 hours from the standing cycle pool of project and AI news updates.
+No two posts share an image: every post carries its own cover. The
+three repeated cycle posts (cycle-83139, cycle-83140, and
+cycle-83141) were regenerated with unique covers, the cover
+generator now picks a new scene for a repeated topic instead of
+reusing the old cover, and this static copy rotates its bundled
+covers by post slug, so a repeated entry lands on a different cover
+there too.
 
 ![The fluffy Muse AI agent creature wearing dark glasses, looking at a floating screen with a pink ticker strip running across it](brand/brand-ticker.jpg)
 
@@ -160,7 +173,34 @@ sits in the bottom corner of the screen on every tab, one tap from help.
   section's only button links to the repo's real Actions page,
   https://github.com/Git-FED/MuseAi-Social/actions — there is no
   Windows download button, because no .exe exists until that
-  workflow runs.
+  workflow runs. The Desktop section also carries a Linux
+  subsection, "Desktop app — Linux, version 1.0.0": the Linux build
+  is real and ready — the same Electron wrapper packaged as an
+  AppImage (MuseAi-Social-Desktop-1.0.0.AppImage, about 99 MB,
+  Linux x86-64) — with a gradient "Download for Linux" button for
+  the hosted AppImage, a mirror link to the same file name in the
+  site root, and the run steps: make the file executable and run
+  it, no install needed. The tab's art is 11 images Git-FED sent on
+  November 28, 2026, each used exactly once on the App tab and
+  nowhere else — the shared brand images (brand-hero, brand-tiles,
+  brand-grid, brand-build, brand-fork, brand-host) no longer appear
+  on this tab. The 11, in the order they appear on the tab:
+  (1) the creature holding a glowing purple cube under the
+  MuseAi Social wordmark, the tab's hero; (2) "Ready." — the
+  creature waving beside a purple gift box, in the install card;
+  (3) the creature popping out of a glowing gift box over
+  MUSEAI SOCIAL lettering, beside it; (4) SCOPE — three panels,
+  Glasses, App, and Integrations, closing the Android section;
+  (5) "Learn. Build." — the neon circuit diagram, the Desktop
+  section's figure; (6) the creature launching a paper plane
+  toward the GitHub cloud, in the "Mac and Linux too" card;
+  (7) the creature from behind in a neon violet city, beside it;
+  and in the "New app art" gallery row: (8) the creature in neon
+  glasses holding a glowing star over MuseAi Social lettering,
+  (9) the creature holding the dist/ folder while snakes and
+  barrels pour through a neon funnel, (10) the creature looking
+  at a glowing 18+ shield, and (11) a wavy-lines background with
+  a single violet star and no creature.
 - **Support**: the help desk — help topics, FAQ and Wiki links, a help
   form that saves your request, and ways to support the project (behind
   an 18+ gate). The floating support widget in the bottom corner of
