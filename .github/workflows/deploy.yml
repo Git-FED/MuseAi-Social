@@ -25,6 +25,7 @@ jobs:
           test "$(stat -c%s /tmp/MuseAi-Social-Desktop-1.0.0.AppImage)" = "104135472"
           unzip -l /tmp/build.zip | head -n 100
           unzip -q /tmp/build.zip -d /tmp/build
+          chmod -R u+rwX /tmp/build
           echo "Extracted tree:"
           find /tmp/build -maxdepth 3 | head -n 100
           if [ -f /tmp/build/museai-social-portable/dist/index.html ]; then DIST=/tmp/build/museai-social-portable/dist; else DIST=$(dirname "$(find /tmp/build -name index.html -print -quit)"); fi
@@ -33,7 +34,8 @@ jobs:
           echo "Zip contents verified: $DIST/index.html present"
           ls "$DIST" | head -n 50
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-          cp -a "$DIST/." .
+          cp -R "$DIST/." .
+          chmod -R a+rX .
           cp /tmp/MuseAi-Social.apk ./MuseAi-Social.apk
           cp /tmp/MuseAi-Social-Desktop-1.0.0.AppImage ./MuseAi-Social-Desktop-1.0.0.AppImage
           test -f README.md
