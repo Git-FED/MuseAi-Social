@@ -76,7 +76,19 @@ conveyor belt, and so on through all 44. Every cover shows the
 same Muse AI agent: the soft fluffy cream and beige plush
 creature with the rounded furry hood, pale cream face, two small
 black dot eyes, small simple smile, and soft pink blush cheeks —
-no tail, no robot, no metal, no visor, no antenna. The old starter
+no tail, no robot, no metal, no visor, no antenna. The Muse AI
+avatar has no tail, and this tail removal fix checked every
+image on the site at full size: all 44 redone post covers and all
+19 spot illustrations were visually audited, with spot checks of
+the brand, App tab, Wiki, workflow, and server-icon sets. Four
+images still had a visible tail, tail nub, or tail pom-pom
+behind the creature — the c3-one-roof post cover, the Workflows
+build illustration, the Workflows community illustration, and
+the far-right creature in the Community hero — and each one was
+edited in place with the tail erased and the scene filled in
+seamlessly, verified tail-free at full size, and saved over the
+same file at the same dimensions, so every tab now shows the
+avatar with no tail. The old starter
 covers and the paper-craft story set are no longer assigned to any
 post. This static copy assigns the exact same 44 covers by post
 slug, so Pages shows the same distinct images as the Space, and a
