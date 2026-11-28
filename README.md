@@ -85,11 +85,22 @@ sits in the bottom corner of the screen on every tab, one tap from help.
   post (the same sourcing rule as the ticker: a post only counts when
   its body carries a real source and story date), with filters for
   Muse AI, Meta, and Meta Glasses, and a link through to the full
-  post on the Board. It opens with the board's November 24, 2026
-  stories: Muse live in the UK with 15 local partners (Meta
-  Newsroom), Muse shopping Gopuff groceries (Business Wire), Muse
-  shopping Walmart's Black Friday deals (Walmart), and Muse in
-  Instagram DMs (Gadgets 360).
+  post on the Board. It carries 12 real sourced stories: the four
+  November 24, 2026 stories — Muse live in the UK with 15 local
+  partners (Meta Newsroom), Muse shopping Gopuff groceries
+  (Business Wire), Muse shopping Walmart's Black Friday deals
+  (Walmart), and Muse in Instagram DMs (Gadgets 360) — plus eight
+  more posted on November 28, 2026: Muse on Apple Watch and Wear
+  OS (emergent.sh, November 10), Realtime Avatar video chat and
+  Muse Voice (Meta Newsroom, November 5), Muse's own email
+  address, handle@muse.ai (Built With Muse, November 20), Muse
+  phoning US businesses for paid subscribers (TechCrunch,
+  November 12), the Ray-Ban Meta Gen 3 and Ray-Ban Meta Audio
+  launch (Meta Newsroom, September 23), Muse for Mac computer
+  use (museaicodes.com, September 23), the Montana AG multistate
+  probe into Muse (DataGuidance, November 23), and Muse placing
+  51% of AI-agent shopping orders (Forter Intelligence,
+  November 24).
 - **Servers**: a map of Muse AI communities across Discord, Reddit,
   Facebook, Telegram, GitHub, Skool, forums, Whop, and Token Town, with
   channels you can chat in. Likes on server messages and pinned posts
@@ -134,7 +145,12 @@ sits in the bottom corner of the screen on every tab, one tap from help.
 - **Support**: the help desk — help topics, FAQ and Wiki links, a help
   form that saves your request, and ways to support the project (behind
   an 18+ gate). The floating support widget in the bottom corner of
-  every tab opens the same help form.
+  every tab opens the same help form. Each request shows as a box with
+  its synced status (Open, In progress, or Resolved) and a reply
+  thread, both stored in the backend: admin (username admin) sees every
+  request, can change its status, and can reply in the box, and the
+  person who sent it sees the status and admin replies on their own
+  box; everyone else sees only their own requests.
 - **Thanks**: a celebration page from the owner: a thank-you message,
   what the community is thankful for, and contributor highlights.
 
