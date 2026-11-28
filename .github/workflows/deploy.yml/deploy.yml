@@ -1,0 +1,43 @@
+name: Deploy MuseAi Social build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download build zip
+        run: |
+          curl -fSL -o /tmp/build.zip "https://muse.ai/files/1262794840260867/4440645122912355/4igk9l1fceoepy7dfyf9tw4n/MuseAi-Social-Portable-BACKEND.zip"
+          ls -lh /tmp/build.zip
+          unzip -o /tmp/build.zip -d /tmp/extract
+          test -d /tmp/extract/museai-social-portable/dist
+          test -f /tmp/extract/museai-social-portable/dist/index.html
+          ls /tmp/extract/museai-social-portable/dist
+      - name: Download APK
+        run: |
+          curl -fSL -o /tmp/MuseAi-Social.apk "https://muse.ai/files/1262794840260867/1497693099094202/k7087nq5hqergk9cnb2opjdl/MuseAi-Social.apk"
+          APK_SIZE=$(stat -c%s /tmp/MuseAi-Social.apk)
+          echo "APK size: $APK_SIZE bytes"
+          test "$APK_SIZE" -eq 21563718
+      - name: Replace repo root with new build
+        run: |
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/extract/museai-social-portable/dist/. .
+          cp /tmp/MuseAi-Social.apk ./MuseAi-Social.apk
+          test -f README.md
+          test -f index.html
+          ls -la
+      - name: Commit and push
+        run: |
+          git config user.name "Git-FED"
+          git config user.email "Git-FED@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "MuseAi Social Space build for GitHub Pages"
+          git push
