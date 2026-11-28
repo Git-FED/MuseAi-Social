@@ -1,0 +1,37 @@
+name: Deploy MuseAi Social Space build
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download build zip
+        run: |
+          curl -fL -o /tmp/build.zip "https://muse.ai/files/1262794840260867/2350362335813860/cryv6ps68goo3n9cb4g9fmyp/MuseAi-Social-Portable-BACKEND.zip"
+          mkdir -p /tmp/build
+          unzip -o /tmp/build.zip -d /tmp/build
+          chmod -R u+rwX /tmp/build
+          test -f /tmp/build/museai-social-portable/dist/index.html
+      - name: Download APK and AppImage
+        run: |
+          curl -fL -o /tmp/MuseAi-Social.apk "https://muse.ai/files/1262794840260867/1497693099094202/k7087nq5hqergk9cnb2opjdl/MuseAi-Social.apk"
+          test "$(stat -c%s /tmp/MuseAi-Social.apk)" = "21563718"
+          curl -fL -o "/tmp/MuseAi-Social-Desktop-1.0.0.AppImage" "https://muse.ai/files/1262794840260867/1649498466952805/t28asrd8azncknu3tv5aic72/MuseAi-Social-Desktop-1.0.0.AppImage"
+          test "$(stat -c%s /tmp/MuseAi-Social-Desktop-1.0.0.AppImage)" = "104135472"
+      - name: Replace repo root with new build
+        run: |
+          cp -r /tmp/build/museai-social-portable/dist/. /tmp/build-root/
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/build-root/. .
+          cp /tmp/MuseAi-Social.apk MuseAi-Social.apk
+          cp "/tmp/MuseAi-Social-Desktop-1.0.0.AppImage" MuseAi-Social-Desktop-1.0.0.AppImage
+          chmod -R a+rX .
+          test -f README.md
+          git config user.name "Git-FED"
+          git config user.email "git-fed@users.noreply.github.com"
+          git add -A
+          git commit -m "MuseAi Social Space build for GitHub Pages" || echo "nothing to commit"
+          git push
