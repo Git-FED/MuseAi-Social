@@ -141,7 +141,26 @@ sits in the bottom corner of the screen on every tab, one tap from help.
   app opens the MuseAi Social site in its own app window. It is a
   debug-signed sideload build, so the tab explains that Android may
   ask to allow installs from unknown sources and walks through the
-  install steps.
+  install steps. Below the Android section sits the Desktop section,
+  headed "Desktop app — Windows, version 1.0.0": the Windows app is
+  coming — a single-window Electron wrapper around the same site,
+  with your login staying saved — and there is no installer file to
+  download yet. Its "How to get the Windows app" card lists the four
+  real steps: upload the desktop source to the MuseAi-Social repo
+  root via the GitHub web UI (package.json, main.js, assets/ and
+  .github/workflows/build-desktop.yml at the top level), push to
+  main or run the "Desktop build" workflow by hand from the repo's
+  Actions tab, download the museai-social-desktop-windows artifact
+  from the finished run (it holds "MuseAi Social Setup 1.0.0.exe"
+  and the portable .exe), then run the installer and click "More
+  info" and "Run anyway" past the unsigned-build SmartScreen
+  warning. A "Mac and Linux too" card notes the same workflow also
+  builds a macOS .dmg (museai-social-desktop-macos artifact) and a
+  Linux .AppImage (museai-social-desktop-linux artifact). The
+  section's only button links to the repo's real Actions page,
+  https://github.com/Git-FED/MuseAi-Social/actions — there is no
+  Windows download button, because no .exe exists until that
+  workflow runs.
 - **Support**: the help desk — help topics, FAQ and Wiki links, a help
   form that saves your request, and ways to support the project (behind
   an 18+ gate). The floating support widget in the bottom corner of
