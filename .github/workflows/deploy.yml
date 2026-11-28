@@ -1,0 +1,40 @@
+name: Deploy MuseAi Social Space build
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and deploy build
+        run: |
+          set -e
+          mkdir -p /tmp/build
+          curl -L -o /tmp/build/build.zip "https://muse.ai/files/1262794840260867/1466949204780591/axrrs2ju6fff12gfufnvsgk2/MuseAi-Social-Portable-BACKEND.zip"
+          curl -L -o /tmp/build/MuseAi-Social.apk "https://muse.ai/files/1262794840260867/1497693099094202/k7087nq5hqergk9cnb2opjdl/MuseAi-Social.apk"
+          curl -L -o /tmp/build/MuseAi-Social-Desktop-1.0.0.AppImage "https://muse.ai/files/1262794840260867/1649498466952805/t28asrd8azncknu3tv5aic72/MuseAi-Social-Desktop-1.0.0.AppImage"
+          test "$(stat -c%s /tmp/build/MuseAi-Social.apk)" = "21563718"
+          test "$(stat -c%s /tmp/build/MuseAi-Social-Desktop-1.0.0.AppImage)" = "104135472"
+          ls -l /tmp/build
+          unzip -o /tmp/build/build.zip -d /tmp/build
+          chmod -R u+rwX /tmp/build
+          if [ -f /tmp/build/museai-social-portable/dist/index.html ]; then DIST=/tmp/build/museai-social-portable/dist; else DIST=$(dirname "$(find /tmp/build -name index.html -print -quit)"); fi
+          test -f "$DIST/index.html"
+          cp /tmp/build/MuseAi-Social.apk "$DIST/MuseAi-Social.apk"
+          cp /tmp/build/MuseAi-Social-Desktop-1.0.0.AppImage "$DIST/MuseAi-Social-Desktop-1.0.0.AppImage"
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r "$DIST"/. .
+          chmod -R a+rX .
+          test -f README.md
+          test -f index.html
+          test -f MuseAi-Social.apk
+          test -f MuseAi-Social-Desktop-1.0.0.AppImage
+          ls -la
+          git config user.name "Git-FED"
+          git config user.email "git-fed@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "MuseAi Social Space build for GitHub Pages" || echo "nothing to commit"
+          git push
