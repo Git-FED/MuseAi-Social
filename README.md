@@ -82,7 +82,19 @@ post. This static copy assigns the exact same 44 covers by post
 slug, so Pages shows the same distinct images as the Space, and a
 repair pass on load reassigns any cover that collides in a
 returning visitor's stored board — so no two posts share a cover
-on the Board or the News tab, here or in the Space.
+on the Board or the News tab, here or in the Space. The stale
+paper-craft covers are fixed for good: a load-time repair in this
+static copy reassigns any stored post still carrying a pre-redo
+cover — an old cover-* starter, a paper-craft cover-story-* spare,
+or an old news key — to its redone c3 cover, with cycle posts
+matched to their entry by title, so a stored "Cycle update:
+FedPromptly is the front door" post moves from cover-story-desk
+to c3-front-door, the same cover as its 2026-11-26 copy. The old
+fallback pools are deleted entirely — the 22 cover-* starters and
+the 8 paper-craft cover-story-* spares no longer exist in the
+code — the last-resort cover rotation cycles only c3 covers, and
+the backfill map and news seed entries carry c3 keys, so no code
+path in this copy can serve a paper-craft cover again.
 
 ![The fluffy Muse AI agent creature wearing dark glasses, looking at a floating screen with a pink ticker strip running across it](brand/brand-ticker.jpg)
 
@@ -109,22 +121,27 @@ sits in the bottom corner of the screen on every tab, one tap from help.
   post (the same sourcing rule as the ticker: a post only counts when
   its body carries a real source and story date), with filters for
   Muse AI, Meta, and Meta Glasses, and a link through to the full
-  post on the Board. It carries 12 real sourced stories: the four
+  post on the Board. It carries 13 real sourced stories: the four
   November 24, 2026 stories — Muse live in the UK with 15 local
   partners (Meta Newsroom), Muse shopping Gopuff groceries
   (Business Wire), Muse shopping Walmart's Black Friday deals
-  (Walmart), and Muse in Instagram DMs (Gadgets 360) — plus eight
-  more posted on November 28, 2026: Muse on Apple Watch and Wear
-  OS (emergent.sh, November 10), Realtime Avatar video chat and
-  Muse Voice (Meta Newsroom, November 5), Muse's own email
-  address, handle@muse.ai (Built With Muse, November 20), Muse
-  phoning US businesses for paid subscribers (TechCrunch,
-  November 12), the Ray-Ban Meta Gen 3 and Ray-Ban Meta Audio
-  launch (Meta Newsroom, September 23), Muse for Mac computer
-  use (museaicodes.com, September 23), the Montana AG multistate
-  probe into Muse (DataGuidance, November 23), and Muse placing
-  51% of AI-agent shopping orders (Forter Intelligence,
-  November 24).
+  (Walmart), and Muse in Instagram DMs (Gadgets 360) — plus nine
+  more: Muse on Apple Watch and Wear OS (emergent.sh,
+  November 10), Realtime Avatar video chat and Muse Voice
+  (Meta Newsroom, November 5), Muse's own email address,
+  handle@muse.ai (Built With Muse, November 20), Muse phoning
+  US businesses for paid subscribers (TechCrunch, November 12),
+  the Ray-Ban Meta Gen 3 and Ray-Ban Meta Audio launch
+  (Meta Newsroom, September 23), Muse for Mac computer use
+  (museaicodes.com, September 23), the Montana AG multistate probe
+  into Muse (DataGuidance, November 23), Muse placing 51% of
+  AI-agent shopping orders (Forter Intelligence, November 24),
+  and Muse's shopping orders hitting a wall as retailers block
+  AI agents (CNBC, reported by allthingsmuse.com, November 27).
+  Every one of the 13 carries its own distinct c3 cover, and the
+  CNBC shopping story is also inserted into a returning visitor's
+  stored board on load, so this copy shows all 13 stories just
+  like the Space.
 - **Servers**: a map of Muse AI communities across Discord, Reddit,
   Facebook, Telegram, GitHub, Skool, forums, Whop, and Token Town, with
   channels you can chat in. Likes on server messages and pinned posts
