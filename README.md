@@ -64,7 +64,7 @@ Featured slider maximum is 20). A new Mod Bot post is added every
 
 ## The tabs
 
-The tabs are always in this order: Board, Servers, Community, Wiki,
+The tabs are always in this order: Board, News, Servers, Community, Wiki,
 Workflows, Projects, App, Support, Thanks. Support and Thanks are always last.
 There is no FAQ tab: the FAQ lives inside the Wiki, as its Frequently
 asked questions page. A support widget with the waving creature also
@@ -78,6 +78,18 @@ sits in the bottom corner of the screen on every tab, one tap from help.
   posts and votes stored on the board, with the top three on a
   podium. The header's notification button is just a bell, with the
   unread count on it.
+- **News**: the very important Muse AI, Meta, and Meta Glasses news —
+  the board's real, sourced news stories, newest first, with the
+  newest story featured at the top and the rest in a list. Every story
+  shows the headline, date, source name, and source link from its own
+  post (the same sourcing rule as the ticker: a post only counts when
+  its body carries a real source and story date), with filters for
+  Muse AI, Meta, and Meta Glasses, and a link through to the full
+  post on the Board. It opens with the board's November 24, 2026
+  stories: Muse live in the UK with 15 local partners (Meta
+  Newsroom), Muse shopping Gopuff groceries (Business Wire), Muse
+  shopping Walmart's Black Friday deals (Walmart), and Muse in
+  Instagram DMs (Gadgets 360).
 - **Servers**: a map of Muse AI communities across Discord, Reddit,
   Facebook, Telegram, GitHub, Skool, forums, Whop, and Token Town, with
   channels you can chat in. Likes on server messages and pinned posts
