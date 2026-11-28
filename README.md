@@ -65,7 +65,7 @@ Featured slider maximum is 20). A new Mod Bot post is added every
 ## The tabs
 
 The tabs are always in this order: Board, Servers, Community, Wiki,
-Workflows, Projects, Support, Thanks. Support and Thanks are always last.
+Workflows, Projects, App, Support, Thanks. Support and Thanks are always last.
 There is no FAQ tab: the FAQ lives inside the Wiki, as its Frequently
 asked questions page. A support widget with the waving creature also
 sits in the bottom corner of the screen on every tab, one tap from help.
@@ -113,6 +113,12 @@ sits in the bottom corner of the screen on every tab, one tap from help.
   (repo URL, name, description, owner): submissions are stored as
   pending, shown on the tab as pending submissions, and join the
   leaderboard when an admin approves them.
+- **App**: the MuseAi Social Android app, ready to download —
+  package com.fedos.museaisocial, version 1.0.0, about 20.6 MB. The
+  app opens the MuseAi Social site in its own app window. It is a
+  debug-signed sideload build, so the tab explains that Android may
+  ask to allow installs from unknown sources and walks through the
+  install steps.
 - **Support**: the help desk — help topics, FAQ and Wiki links, a help
   form that saves your request, and ways to support the project (behind
   an 18+ gate). The floating support widget in the bottom corner of
