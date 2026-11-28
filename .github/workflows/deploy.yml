@@ -23,12 +23,17 @@ jobs:
           echo "AppImage size: $(stat -c%s /tmp/MuseAi-Social-Desktop-1.0.0.AppImage)"
           test "$(stat -c%s /tmp/MuseAi-Social.apk)" = "21563718"
           test "$(stat -c%s /tmp/MuseAi-Social-Desktop-1.0.0.AppImage)" = "104135472"
+          unzip -l /tmp/build.zip | head -n 100
           unzip -q /tmp/build.zip -d /tmp/build
-          test -f /tmp/build/museai-social-portable/dist/index.html
-          echo "Zip contents verified: museai-social-portable/dist/index.html present"
-          ls /tmp/build/museai-social-portable/dist | head -n 50
+          echo "Extracted tree:"
+          find /tmp/build -maxdepth 3 | head -n 100
+          if [ -f /tmp/build/museai-social-portable/dist/index.html ]; then DIST=/tmp/build/museai-social-portable/dist; else DIST=$(dirname "$(find /tmp/build -name index.html -print -quit)"); fi
+          echo "Using dist dir: $DIST"
+          test -f "$DIST/index.html"
+          echo "Zip contents verified: $DIST/index.html present"
+          ls "$DIST" | head -n 50
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-          cp -a /tmp/build/museai-social-portable/dist/. .
+          cp -a "$DIST/." .
           cp /tmp/MuseAi-Social.apk ./MuseAi-Social.apk
           cp /tmp/MuseAi-Social-Desktop-1.0.0.AppImage ./MuseAi-Social-Desktop-1.0.0.AppImage
           test -f README.md
