@@ -67,11 +67,16 @@ Featured slider maximum is 20). A new Mod Bot post is added every
 6 hours from the standing cycle pool of project and AI news updates.
 No two posts share an image: every post carries its own cover. The
 three repeated cycle posts (cycle-83139, cycle-83140, and
-cycle-83141) were regenerated with unique covers, the cover
+cycle-83141) were regenerated with unique covers, and the cover
 generator now picks a new scene for a repeated topic instead of
-reusing the old cover, and this static copy rotates its bundled
-covers by post slug, so a repeated entry lands on a different cover
-there too.
+reusing the old cover. This static copy keeps the same rule without
+a server: it no longer deals out its bundled covers by hashing post
+slugs into the starter set. Each of the ten daily news posts whose
+Space cover lives on the server has its own bundled paper-craft
+cover here, cycle and member posts take a spare-pool cover no other
+post is using, and a repair pass on load reassigns any cover that
+collides in a returning visitor's stored board — so no two posts
+share a cover on the Board or the News tab, here or in the Space.
 
 ![The fluffy Muse AI agent creature wearing dark glasses, looking at a floating screen with a pink ticker strip running across it](brand/brand-ticker.jpg)
 
@@ -237,6 +242,26 @@ sits in the bottom corner of the screen on every tab, one tap from help.
 
 *Support and Thanks: the wave is for everyone who keeps the signal
 humming.*
+
+## One image, one spot
+
+Every picture on the site belongs to exactly one spot. Git-FED's 14
+brand images — his own uploads from November 26, 2026, kept
+byte-for-byte — each appear in exactly one place on the site: the
+Board hero, the two Board highlight cards, the six "How the board
+works" cards, the Board Trending figure, the Servers hero, the Wiki
+hero, the Workflows "Ready to host" figure, and the Good Notes
+post's cover. Every other spot that used to repeat one of those
+brand images now has its own new picture of the fluffy cream Muse
+AI agent creature, drawn for that spot alone: 19 of them, across the
+Board filter rows and third highlight card, the News, Community,
+Support, and Thanks heroes and cards, the Workflows and Projects
+figures, and the support widget. The robots are gone: the Wiki's
+Getting started and Muse AI basics banners and the Servers banner
+were redrawn with the same tail-free cream creature, and the avatar
+picture is the cream creature too. The Workflows and Projects tabs
+no longer borrow Board post covers, and the App tab's 11 images stay
+only on the App tab.
 
 ## How to use it
 
