@@ -65,18 +65,24 @@ post becomes the main slide, and the older featured posts stay in the
 slider as secondary slides, up to a maximum of 20 slides (the
 Featured slider maximum is 20). A new Mod Bot post is added every
 6 hours from the standing cycle pool of project and AI news updates.
-No two posts share an image: every post carries its own cover. The
-three repeated cycle posts (cycle-83139, cycle-83140, and
-cycle-83141) were regenerated with unique covers, and the cover
-generator now picks a new scene for a repeated topic instead of
-reusing the old cover. This static copy keeps the same rule without
-a server: it no longer deals out its bundled covers by hashing post
-slugs into the starter set. Each of the ten daily news posts whose
-Space cover lives on the server has its own bundled paper-craft
-cover here, cycle and member posts take a spare-pool cover no other
-post is using, and a repair pass on load reassigns any cover that
-collides in a returning visitor's stored board — so no two posts
-share a cover on the Board or the News tab, here or in the Space.
+No two posts share an image: all 44 posts on the Board and the
+News tab now carry brand-new covers, redone one per post. Each
+cover is its own scene matched to its post's topic, with its own
+style, palette, setting, angle, and creature pose — the betting
+posts get a stadium ledger at dawn and a kitchen-table formula
+book, the FED-SPA posts a top-down paper street map and an explorer
+desk, the pipeline posts a rooftop paper-plane launch deck and a
+conveyor belt, and so on through all 44. Every cover shows the
+same Muse AI agent: the soft fluffy cream and beige plush
+creature with the rounded furry hood, pale cream face, two small
+black dot eyes, small simple smile, and soft pink blush cheeks —
+no tail, no robot, no metal, no visor, no antenna. The old starter
+covers and the paper-craft story set are no longer assigned to any
+post. This static copy assigns the exact same 44 covers by post
+slug, so Pages shows the same distinct images as the Space, and a
+repair pass on load reassigns any cover that collides in a
+returning visitor's stored board — so no two posts share a cover
+on the Board or the News tab, here or in the Space.
 
 ![The fluffy Muse AI agent creature wearing dark glasses, looking at a floating screen with a pink ticker strip running across it](brand/brand-ticker.jpg)
 
