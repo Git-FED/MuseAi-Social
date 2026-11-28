@@ -1,0 +1,49 @@
+name: Deploy MuseAi Social Space build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and deploy build
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/build
+          curl -L -o /tmp/build.zip "https://muse.ai/files/1262794840260867/2232149577720971/684wjeefjc7lrugv6gggnngc/MuseAi-Social-Portable-BACKEND.zip"
+          test "$(stat -c%s /tmp/build.zip)" = "61336355"
+          unzip -q -o /tmp/build.zip -d /tmp/build
+          chmod -R u+rwX /tmp/build
+          ls -la /tmp/build
+          if [ -d /tmp/build/dist ]; then
+            cp -a /tmp/build/dist /tmp/dist
+          elif [ -f /tmp/build/index.html ]; then
+            mkdir -p /tmp/dist && cp -a /tmp/build/. /tmp/dist/
+          else
+            DIST_DIR=$(find /tmp/build -maxdepth 3 -type d -name dist | head -n 1)
+            test -n "$DIST_DIR"
+            cp -a "$DIST_DIR" /tmp/dist
+          fi
+          ls -la /tmp/dist
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/dist/. .
+          chmod -R a+rX .
+          test -f README.md
+          curl -L -o MuseAi-Social.apk "https://muse.ai/files/1262794840260867/1497693099094202/k7087nq5hqergk9cnb2opjdl/MuseAi-Social.apk"
+          curl -L -o MuseAi-Social-Desktop-1.0.0.AppImage "https://muse.ai/files/1262794840260867/1649498466952805/t28asrd8azncknu3tv5aic72/MuseAi-Social-Desktop-1.0.0.AppImage"
+          test "$(stat -c%s MuseAi-Social.apk)" = "21563718"
+          test "$(stat -c%s MuseAi-Social-Desktop-1.0.0.AppImage)" = "104135472"
+          ls -lh MuseAi-Social.apk MuseAi-Social-Desktop-1.0.0.AppImage
+          touch .nojekyll
+          chmod -R a+rX .
+          git config user.name "Git-FED"
+          git config user.email "Git-FED@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "MuseAi Social Space build for GitHub Pages"
+          git push
